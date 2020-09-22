@@ -54,13 +54,14 @@
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/et_email"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="49dp"
                 android:background="@null"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
+                android:text="@={viewModel.emailObservableField}"
                 android:textColor="@color/textPrimaryColor"
                 android:textSize="@dimen/textPrimarySize"
-                android:text="@={viewModel.emailObservableField}"/>
+                android:textCursorDrawable="@drawable/cursor"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -90,7 +91,8 @@
                 android:maxLines="1"
                 android:textColor="@color/textPrimaryColor"
                 android:textSize="@dimen/textPrimarySize"
-                android:text="@={viewModel.passwordObservableField}"/>
+                android:text="@={viewModel.passwordObservableField}"
+                android:textCursorDrawable="@drawable/cursor"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 

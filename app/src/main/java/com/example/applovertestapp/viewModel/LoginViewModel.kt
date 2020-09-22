@@ -6,8 +6,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.domain.interactor.LoginUseCase
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class LoginViewModel(private val loginUseCase: LoginUseCase): ViewModel() {
+
+    private val disposables = CompositeDisposable()
 
     val emailObservableField = ObservableField<String>()
     val passwordObservableField = ObservableField<String>()
@@ -29,6 +32,7 @@ class LoginViewModel(private val loginUseCase: LoginUseCase): ViewModel() {
                     isLoginStartedLiveData.postValue(false)
                     errorsLiveData.postValue(error)
                 } )
+            .let { disposables.add(it) }
 
     }
 
@@ -38,5 +42,8 @@ class LoginViewModel(private val loginUseCase: LoginUseCase): ViewModel() {
 
     fun getIsLoginStartedLiveData() = isLoginStartedLiveData as LiveData<Boolean>
 
+    fun clearDisposables(){
+        disposables.clear()
+    }
 
 }

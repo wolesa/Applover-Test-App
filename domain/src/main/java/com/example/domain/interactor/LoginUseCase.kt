@@ -8,10 +8,10 @@ import com.example.domain.repository.Repo
 import io.reactivex.rxjava3.core.Observable
 
 class LoginUseCase(private val repo: Repo): TwoParamsUseCase<String?, String?, Result> {
-    override fun invoke(email: String?, password: String?): Observable<Result> {
+    override fun invoke(t: String?, s: String?): Observable<Result> {
 
-        return if(isEmailValid(email) && isPasswordValid(password)){
-            repo.loginUser(email.toString(), password.toString())
+        return if(isEmailValid(t) && isPasswordValid(s)){
+            repo.loginUser(t.toString(), s.toString())
         } else{
             Observable.error(Throwable("Credentials error! Email or password is invalid"))
         }

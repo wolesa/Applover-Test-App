@@ -21,7 +21,7 @@ class LoginActivity : AppCompatActivity() {
     private val viewModel: LoginViewModel by viewModel()
     private var binding: ActivityLoginBinding? = null
 
-    private var shouldExitOnNectBackPress = false;
+    private var shouldExitOnNectBackPress = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +42,6 @@ class LoginActivity : AppCompatActivity() {
         viewModel.getSuccessLiveData().observe(this, Observer {
             openSuccessActivity()
         })
-
     }
 
     override fun onBackPressed() {
@@ -53,12 +52,20 @@ class LoginActivity : AppCompatActivity() {
 
             Toast.makeText(this, "Click back again to exit", Toast.LENGTH_SHORT).show()
 
-            Handler().postDelayed(Runnable { shouldExitOnNectBackPress = false }, 1500 )
+            Handler().postDelayed({ shouldExitOnNectBackPress = false }, 1500 )
         }
     }
 
-    private fun showProgressDialog(isLoginStarted : Boolean){
-        binding?.progressView?.visibility = if(isLoginStarted)View.VISIBLE else View.GONE
+    override fun onPause() {
+        super.onPause()
+
+        viewModel.clearDisposables()
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        viewModel.clearDisposables()
     }
 
     private fun showError(throwable: Throwable){
@@ -67,8 +74,12 @@ class LoginActivity : AppCompatActivity() {
                 title = "Error"
                 setMessage(throwable.message)
                 setCancelable(false)
-                setNeutralButton("Ok", DialogInterface.OnClickListener { dialogInterface, i ->  dialogInterface.dismiss()})
+                setNeutralButton("Ok", { dialogInterface, i ->  dialogInterface.dismiss()})
             }.show()
+    }
+
+    private fun showProgressDialog(isLoginStarted : Boolean){
+        binding?.progressView?.visibility = if(isLoginStarted)View.VISIBLE else View.GONE
     }
 
     private fun openSuccessActivity(){
